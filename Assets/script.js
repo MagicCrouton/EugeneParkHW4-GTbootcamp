@@ -15,7 +15,7 @@ var quizBoxbannerEl = document.getElementById('quizBoxbanner');
 var question1 = {question:"What is the command to display a prompt?", correctAnswer: `prompt("Text Here");`}
 var question2 = {question: "How do you assign the value from a prompt to a string?", correctAnswer: `var stringVar = prompt("Text Here");`}
 var question3 = {question: "How do you assign the value from a prompt to a non-string variable?", correctAnswer: `Using a parse. Example : var intVar = parseInt(prompt("Text Here"));`}
-var question4 = {question:"How do you assign a default value to a prompt?", correctAnswer: ``}
+var question4 = {question:"How do you assign a default value to a prompt?", correctAnswer: `window.prompt("prompt","value")`}
 var question5 = {question:"How do you display an alert?", correctAnswer: `Using the second parameter. Example: prompt("Enter Age:", "18");`}
 var question6 = {question:"How do you display an alert?", correctAnswer: `alert("Alert Text Here");`}
 var question7 = {question:"How do you test that a variable contains a valid number?", correctAnswer: `isNaN(varHere); //Returns true or false.`}
@@ -33,7 +33,7 @@ for (i=0; i < 14; ++i){
     questionPool[i] = eval(`question${(i+1)}`)
 }
 
-function setTime(timerEl) {
+function setTime(timerEl,) {
     var timerInterval = setInterval(function() {
       secondsLeft--;
       timerEl.textContent = secondsLeft;
@@ -41,18 +41,58 @@ function setTime(timerEl) {
       if(secondsLeft === 0) {
         // Stops execution of action at set interval
         clearInterval(timerInterval);
+        timerEl.textContent = "times up!"
       }
   
     }, 1000);
   }
 
-// Inital click resets the page for questions
+  function queryQuestion(n){
+    h2El.textContent = `${questionPool[n].question}`;
+    // collects all other "incorrect answers to populate into the other choices"
+    var otheranswerPool = [];
+    for (i=0; i<(questionPool.length); ++i) {
+        otheranswerPool[i] = questionPool[i].correctAnswer;
+      }
+      otheranswerPool.splice(n,1)
+    // creates array of three wrong answers pulled from the whole pool and the right answer
+    var choiceArray =[];
+    choiceArray[0] = `${questionPool[n].correctAnswer}`;
+      var i = 1
+    while (i<4) {
+      var choiceContent = questionPool[Math.round((Math.random()*14))].correctAnswer;
+      if (!choiceArray.includes(choiceContent)) {
+        choiceArray[i] = choiceContent;
+        i = i + 1
+      }
+    }
+      // creates an array to distribute the answer choices randomly among 4 Elements
+      var placement = [];
+      var i = 0
+    while (i<4) {
+      var place = Math.round((Math.random()*4));
+      if (!placement.includes(place)) {
+        placement[i] = place;
+        i = i + 1
+      }
+    }
+    li1.textContent = `${choiceArray[placement[0]]}`
+    li2.textContent = `${choiceArray[placement[1]]}`
+    li3.textContent = `${choiceArray[placement[2]]}`
+    li4.textContent = `${choiceArray[placement[3]]}`
+  }
 
-var secondsLeft = 20*60*1000
+  
+// Inital click resets the page for questions and starts the inital timer
+
+var secondsLeft = 5;
+var addtime = 0;
+
 
 starBtnEl.addEventListener("click", function() {
     starBtnEl.setAttribute("class", "choice");
     starBtnEl.setAttribute("id", "multChoice1");
+    var li1 = document.getElementById('multChoice1')
     var li2 = document.createElement('li');
     var li3 = document.createElement('li');
     var li4 = document.createElement('li');
@@ -68,6 +108,8 @@ starBtnEl.addEventListener("click", function() {
     multchoiceListEl.appendChild(li3);
     multchoiceListEl.appendChild(li4);
     quizBoxbannerEl.appendChild(timerEl);
+    h2El.textContent = `${questionPool[1].question}`
+    li1.textContent = 'placeholder'
     li2.textContent = 'placeholder'
     li3.textContent = 'placeholder'
     li4.textContent = 'placeholder'
