@@ -47,7 +47,8 @@ function setTime(timerEl,) {
     }, 1000);
   }
 
-  function queryQuestion(n){
+// This function fills the multiple choice text content with one correct answer and three randomized wrong answers from the rest of the pool
+  function queryQuestion(n,li1,li2,li3,li4) {
     h2El.textContent = `${questionPool[n].question}`;
     // collects all other "incorrect answers to populate into the other choices"
     var otheranswerPool = [];
@@ -60,7 +61,7 @@ function setTime(timerEl,) {
     choiceArray[0] = `${questionPool[n].correctAnswer}`;
       var i = 1
     while (i<4) {
-      var choiceContent = questionPool[Math.round((Math.random()*14))].correctAnswer;
+      var choiceContent = questionPool[Math.floor((Math.random()*14))].correctAnswer;
       if (!choiceArray.includes(choiceContent)) {
         choiceArray[i] = choiceContent;
         i = i + 1
@@ -70,49 +71,50 @@ function setTime(timerEl,) {
       var placement = [];
       var i = 0
     while (i<4) {
-      var place = Math.round((Math.random()*4));
+      var place = Math.floor((Math.random()*4));
       if (!placement.includes(place)) {
         placement[i] = place;
         i = i + 1
       }
     }
-    li1.textContent = `${choiceArray[placement[0]]}`
-    li2.textContent = `${choiceArray[placement[1]]}`
-    li3.textContent = `${choiceArray[placement[2]]}`
-    li4.textContent = `${choiceArray[placement[3]]}`
+    li1.textContent = `${choiceArray[placement[0]]}`;
+    li2.textContent = `${choiceArray[placement[1]]}`;
+    li3.textContent = `${choiceArray[placement[2]]}`;
+    li4.textContent = `${choiceArray[placement[3]]}`;
+    
+    return console.log(choiceArray, placement);
   }
-
+// END This function fills the multiple choice text content with one correct answer and three randomized wrong answers from the rest of the pool
   
+
 // Inital click resets the page for questions and starts the inital timer
 
 var secondsLeft = 5;
 var addtime = 0;
-
-
 starBtnEl.addEventListener("click", function() {
-    starBtnEl.setAttribute("class", "choice");
-    starBtnEl.setAttribute("id", "multChoice1");
-    var li1 = document.getElementById('multChoice1')
+    starBtnEl.textContent = ''
+    starBtnEl.setAttribute('id', 'blank')
+    starBtnEl.setAttribute('class', 'blank')
+    var li1 = document.createElement('li');
     var li2 = document.createElement('li');
     var li3 = document.createElement('li');
     var li4 = document.createElement('li');
     var timerEl = document.createElement('div')
+    li1.setAttribute("class", "choice");
     li2.setAttribute("class", "choice");
     li3.setAttribute("class", "choice");
     li4.setAttribute("class", "choice");
-    timerEl.setAttribute("class", 'timer');
+    li1.setAttribute("id", "multChoice2");
     li2.setAttribute("id", "multChoice2");
     li3.setAttribute("id", "multChoice3");
     li4.setAttribute("id", "multChoice4");
+    timerEl.setAttribute("class", 'timer');
+    multchoiceListEl.appendChild(li1);
     multchoiceListEl.appendChild(li2);
     multchoiceListEl.appendChild(li3);
     multchoiceListEl.appendChild(li4);
     quizBoxbannerEl.appendChild(timerEl);
-    h2El.textContent = `${questionPool[1].question}`
-    li1.textContent = 'placeholder'
-    li2.textContent = 'placeholder'
-    li3.textContent = 'placeholder'
-    li4.textContent = 'placeholder'
+    queryQuestion(1,li1,li2,li3,li4)
     setTime (timerEl)
 }
 )
