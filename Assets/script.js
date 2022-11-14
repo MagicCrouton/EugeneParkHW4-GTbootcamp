@@ -31,6 +31,12 @@ var question11 = {question:"How do you assign actions to the window onLoad event
 var question12 = {question:"What are the four attributes of the <script> tag?", correctAnswer: `Type, Src, Charset, and Defer`}
 var question13 = {question:"In the <script> tag, how is the Type attribute used?", correctAnswer: `<script type="text/javascript"> //Used to denote the type of script being used. Always this for JavaScript`}
 var question14 = {question:"In the <script> tag, how is the Src attribute used?", correctAnswer: `<script src="fileName.js"> //Used to denote external file for script use`}
+var question15 = {question:"Assume that the int value has been initialized to positive integer write a while loop that prints all of the positive divisiors of value For ex if value = 28 it prints divisors of 28: 1 2 4 7 14 28", correctAnswer: `System.out.println("divisors of " +value + ":");while (count <= value)\n
+{int count = 1;\n
+if ((value % count) ==0)\n
+System.out.println( "" + count);\n
+count++;\n
+}`}
 
 // this ingests the objects into a single array
 var questionPool = [];
@@ -44,7 +50,7 @@ function countDown(secondsLeft) {
     var timer = setInterval(function() {
     secondsLeft = secondsLeft - 1;
     timerEl.textContent = secondsLeft;
-
+    // var x = [secondsLeft, timer];
     if(secondsLeft < 0) {
       clearInterval(timer);
       timerEl.textContent = "Out of Time!"
@@ -57,10 +63,12 @@ function countDown(secondsLeft) {
       li2.textContent = (`with ${secondsLeft}s left on the clock`);
       li3.textContent = ('');
       li4.textContent = ('');
-      results= {points, secondsLeft}
+      results= {points, second}
     }
     else {}
-   } ,1000)}
+   } ,1000) 
+  return timer;
+}
   // timer function
 
 // This function fills the multiple choice text content with one correct answer and three randomized wrong answers from the rest of the pool
@@ -121,14 +129,14 @@ starBtnEl.addEventListener("click", function() {
     li3.setAttribute("class", "choice");
     li4.setAttribute("class", "choice");
     // loads up first question then sets event listener to each li item
-    queryQuestion(1);
     var choiceEl = document.querySelectorAll('.choice');
     // i tried for hours to separate the function in this set interval function but every time i define the function somewhere else the timer freezes up.
     // if i make the whole thing into a function I cannot access the id because the variable is declared inside the function
     // timerEl.textContent = 60;
     var secondsLeft = 60;
     var points = 0;
-    n = 2;
+    n = 1;
+    queryQuestion(n-1);
     var timer = countDown(secondsLeft);
     // var timer = setInterval(function () {
     //   secondsLeft = secondsLeft - 1;
@@ -150,14 +158,16 @@ starBtnEl.addEventListener("click", function() {
     //   }
     //   }, 1000);
 
-    var results = [];
+    var results = {};
     for (i=0; i < choiceEl.length; ++i) {
     choiceEl[i].addEventListener("click", function(event){
 
         if (event.target.id === 'correctChoice' && (n < questionPool.length)) {
         // secondsLeft = parseInt(timerEl.textContent) + 20;
         clearInterval(timer);
-        countDown(secondsLeft);
+        secondsLeft = parseInt(timerEl.textContent) + 20
+        timerEl.textContent = ('')
+        timer = countDown(secondsLeft);
 
         // var timer = setInterval(function () {
         //   secondsLeft = secondsLeft - 1;
@@ -178,12 +188,14 @@ starBtnEl.addEventListener("click", function() {
         //   }
         //   }, 1000);
         points = points + 1;
-        queryQuestion(n);
+        queryQuestion(n-1);
       }
         else if (event.target.id === 'incorrectChoice' && (n < questionPool.length)) {
         // secondsLeft = parseInt(timerEl.textContent) - 20;
         clearInterval(timer);
-        countDown(secondsLeft);
+        secondsLeft = parseInt(timerEl.textContent) - 20
+        timerEl.textContent = ('')
+        timer = countDown(secondsLeft);
 
         // var timer = setInterval(function () {
         //   secondsLeft = secondsLeft - 1;
@@ -203,7 +215,7 @@ starBtnEl.addEventListener("click", function() {
         //     results= {points, secondsLeft};
         //   }
         //   }, 1000);
-        queryQuestion(n);
+        queryQuestion(n-1);
       } 
         else {
         clearInterval(timer);
