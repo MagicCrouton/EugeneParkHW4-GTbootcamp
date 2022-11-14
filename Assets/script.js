@@ -40,32 +40,27 @@ for (i=0; i < 14; ++i){
 
 // // timer function
 
-function updateTime () {
-  
-}
-
 function countDown(secondsLeft) {
-    var timerInterval = setInterval(function() {
-      secondsLeft--;
-      timerEl.textContent = secondsLeft;
-  
-      if(secondsLeft < 0) {
-        clearInterval(timerInterval);
-        timerEl.textContent = "Out of Time!"
-        li1.setAttribute("class", "finished");
-        li2.setAttribute("class", "finished");
-        li3.setAttribute("class", "finished");
-        li4.setAttribute("class", "finished");
-        h2El.textContent = (`And We're done!`);
-        li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
-        li2.textContent = (`with ${secondsLeft}s left on the clock`);
-        li3.textContent = ('');
-        li4.textContent = ('');
-        results= {points, secondsLeft}
-      }
-  
-    }, 1000);
-  }
+    var timer = setInterval(function() {
+    secondsLeft = secondsLeft - 1;
+    timerEl.textContent = secondsLeft;
+
+    if(secondsLeft < 0) {
+      clearInterval(timer);
+      timerEl.textContent = "Out of Time!"
+      li1.setAttribute("class", "finished");
+      li2.setAttribute("class", "finished");
+      li3.setAttribute("class", "finished");
+      li4.setAttribute("class", "finished");
+      h2El.textContent = (`And We're done!`);
+      li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
+      li2.textContent = (`with ${secondsLeft}s left on the clock`);
+      li3.textContent = ('');
+      li4.textContent = ('');
+      results= {points, secondsLeft}
+    }
+    else {}
+   } ,1000)}
   // timer function
 
 // This function fills the multiple choice text content with one correct answer and three randomized wrong answers from the rest of the pool
@@ -128,25 +123,90 @@ starBtnEl.addEventListener("click", function() {
     // loads up first question then sets event listener to each li item
     queryQuestion(1);
     var choiceEl = document.querySelectorAll('.choice');
-    secondsLeft = 30
-    var points = 0
-    n = 2
+    // i tried for hours to separate the function in this set interval function but every time i define the function somewhere else the timer freezes up.
+    // if i make the whole thing into a function I cannot access the id because the variable is declared inside the function
+    // timerEl.textContent = 60;
+    var secondsLeft = 60;
+    var points = 0;
+    n = 2;
+    var timer = countDown(secondsLeft);
+    // var timer = setInterval(function () {
+    //   secondsLeft = secondsLeft - 1;
+    //   timerEl.textContent = secondsLeft;
+  
+    //   if(secondsLeft < 0) {
+    //     clearInterval(timer);
+    //     timerEl.textContent = "Out of Time!"
+    //     li1.setAttribute("class", "finished");
+    //     li2.setAttribute("class", "finished");
+    //     li3.setAttribute("class", "finished");
+    //     li4.setAttribute("class", "finished");
+    //     h2El.textContent = (`And We're done!`);
+    //     li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
+    //     li2.textContent = (`with ${secondsLeft}s left on the clock`);
+    //     li3.textContent = ('');
+    //     li4.textContent = ('');
+    //     results= {points, secondsLeft};
+    //   }
+    //   }, 1000);
+
     var results = [];
     for (i=0; i < choiceEl.length; ++i) {
     choiceEl[i].addEventListener("click", function(event){
+
         if (event.target.id === 'correctChoice' && (n < questionPool.length)) {
-        secondsLeft = secondsLeft + 20;
+        // secondsLeft = parseInt(timerEl.textContent) + 20;
+        clearInterval(timer);
+        countDown(secondsLeft);
+
+        // var timer = setInterval(function () {
+        //   secondsLeft = secondsLeft - 1;
+        //   timerEl.textContent = secondsLeft;
+        //   if(secondsLeft < 0) {
+        //     clearInterval(timer);
+        //     timerEl.textContent = "Out of Time!"
+        //     li1.setAttribute("class", "finished");
+        //     li2.setAttribute("class", "finished");
+        //     li3.setAttribute("class", "finished");
+        //     li4.setAttribute("class", "finished");
+        //     h2El.textContent = (`And We're done!`);
+        //     li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
+        //     li2.textContent = (`with ${secondsLeft}s left on the clock`);
+        //     li3.textContent = ('');
+        //     li4.textContent = ('');
+        //     results= {points, secondsLeft};
+        //   }
+        //   }, 1000);
         points = points + 1;
         queryQuestion(n);
-        // setTime();
       }
         else if (event.target.id === 'incorrectChoice' && (n < questionPool.length)) {
-        secondsLeft = secondsLeft - 20;
-        points = points + 0;
+        // secondsLeft = parseInt(timerEl.textContent) - 20;
+        clearInterval(timer);
+        countDown(secondsLeft);
+
+        // var timer = setInterval(function () {
+        //   secondsLeft = secondsLeft - 1;
+        //   timerEl.textContent = secondsLeft;
+        //   if(secondsLeft < 0) {
+        //     clearInterval(timer);
+        //     timerEl.textContent = "Out of Time!"
+        //     li1.setAttribute("class", "finished");
+        //     li2.setAttribute("class", "finished");
+        //     li3.setAttribute("class", "finished");
+        //     li4.setAttribute("class", "finished");
+        //     h2El.textContent = (`And We're done!`);
+        //     li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
+        //     li2.textContent = (`with ${secondsLeft}s left on the clock`);
+        //     li3.textContent = ('');
+        //     li4.textContent = ('');
+        //     results= {points, secondsLeft};
+        //   }
+        //   }, 1000);
         queryQuestion(n);
-        // setTime();
       } 
         else {
+        clearInterval(timer);
         li1.setAttribute("class", "finished");
         li2.setAttribute("class", "finished");
         li3.setAttribute("class", "finished");
