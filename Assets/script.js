@@ -1,3 +1,5 @@
+//##########################################################################################################################################
+//##########################################################################################################################################
 // listed html elements for use later
 var bodyEl = document.body;
 var headerEl = document.getElementById('welcome');
@@ -13,9 +15,10 @@ var li3 = document.getElementById('multichoice3')
 var li4 = document.getElementById('multichoice4')
 var timerEl = document.getElementById('timebox')
 // end listed html elements
-
+//##########################################################################################################################################
 // question pool 
 // questions were pulled from https://quizlet.com/234928595/question-pool-quiz-3-chapter-3-flash-cards/
+//##########################################################################################################################################
 
 var question1 = {question:"What is the command to display a prompt?", correctAnswer: `prompt("Text Here");`}
 var question2 = {question: "How do you assign the value from a prompt to a string?", correctAnswer: `var stringVar = prompt("Text Here");`}
@@ -43,35 +46,55 @@ var questionPool = [];
 for (i=0; i < 14; ++i){
     questionPool[i] = eval(`question${(i+1)}`)
 }
-
+//##########################################################################################################################################
+//##########################################################################################################################################
+//this is inital time
+var secondsLeft = 60;
+var points = 0;
+//##########################################################################################################################################
 // // timer function
-
-function countDown(secondsLeft) {
-    var timer = setInterval(function() {
-    secondsLeft = secondsLeft - 1;
-    timerEl.textContent = secondsLeft;
-    // var x = [secondsLeft, timer];
-    if(secondsLeft < 0) {
-      clearInterval(timer);
-      timerEl.textContent = "Out of Time!"
-      li1.setAttribute("class", "finished");
-      li2.setAttribute("class", "finished");
-      li3.setAttribute("class", "finished");
-      li4.setAttribute("class", "finished");
-      h2El.textContent = (`And We're done!`);
-      li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
-      li2.textContent = (`with ${secondsLeft}s left on the clock`);
-      li3.textContent = ('');
-      li4.textContent = ('');
-      results= {points, second}
-    }
-    else {}
-   } ,1000) 
-  return timer;
+function endQuiz (message) {
+  h2El.textContent = (message);
+  li1.setAttribute("class", "finished");
+  li2.setAttribute("class", "finished");
+  li3.setAttribute("class", "finished");
+  li4.setAttribute("class", "finished");
+  li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
+  li2.textContent = (`with ${secondsLeft}s left on the clock`);
+  li3.textContent = ('');
+  li4.textContent = ('');
+  timerEl.textContent = ('');
 }
-  // timer function
+//##########################################################################################################################################
+//##########################################################################################################################################
+// Function Section
+//##########################################################################################################################################
+//##########################################################################################################################################
 
+//##########################################################################################################################################
+// Timer function, could not get this to work.
+//##########################################################################################################################################
+// function countDown(x) {
+//     var timer = setInterval(function() {
+//     x = x - 1;
+//     timerEl.textContent = x;
+//     // var x = [secondsLeft, timer];
+//     if(x < 0) {
+//       clearInterval(timer);
+//       endQuiz('Out of Time!');
+//     }
+//     else {}
+//   return x;         } ,1000)
+//   return [timer, x];}
+//##########################################################################################################################################
+// End
+//##########################################################################################################################################
+
+
+//##########################################################################################################################################
 // This function fills the multiple choice text content with one correct answer and three randomized wrong answers from the rest of the pool
+//##########################################################################################################################################
+
   function queryQuestion(n) {
     h2El.textContent = `${questionPool[n].question}`;
     // collects all other "incorrect answers to populate into the other choices"
@@ -106,17 +129,43 @@ function countDown(secondsLeft) {
     li2.textContent = `${choiceArray[placement[1]]}`;
     li3.textContent = `${choiceArray[placement[2]]}`;
     li4.textContent = `${choiceArray[placement[3]]}`;
-
-    // because the correct answer is initially placed in the first element of the choice array, which then
-    // the coordinates are given to it by the first element of the placement array. we can determine where the correct answer is.
+    li1.setAttribute("class", "choice");
+    li2.setAttribute("class", "choice");
+    li3.setAttribute("class", "choice");
+    li4.setAttribute("class", "choice");
+    // because the correct answer is initially placed in the first element of the choice array, and also 
+    // the coordinates are given to it by the first element of the placement array. we can determine where 
+    // the correct solution is by the code below.
     eval(`li${placement[(0)]+1}`).setAttribute('id', "correctChoice");
     eval(`li${placement[(1)]+1}`).setAttribute('id', "incorrectChoice");
     eval(`li${placement[(2)]+1}`).setAttribute('id', "incorrectChoice");
     eval(`li${placement[(3)]+1}`).setAttribute('id', "incorrectChoice");
   }
-// END This function fills the multiple choice text content with one correct answer and three randomized wrong answers from the rest of the pool
-  
+//##########################################################################################################################################
+// END question updater function
+//##########################################################################################################################################
 
+function splashScreen (prompt) {
+    li1.textContent=`${prompt}`;
+    li2.textContent='';
+    li3.textContent='';
+    li4.textContent='';
+    li1.setAttribute("class", "blank");
+    li2.setAttribute("class", "blank");
+    li3.setAttribute("class", "blank");
+    li4.setAttribute("class", "blank");
+}
+
+//##########################################################################################################################################
+//##########################################################################################################################################
+// Function Section END
+//##########################################################################################################################################
+//##########################################################################################################################################
+
+
+//##########################################################################################################################################
+// Start of the body of the code
+//##########################################################################################################################################
 // Inital click resets the page for questions and starts the inital timer
 
 starBtnEl.addEventListener("click", function() {
@@ -128,137 +177,45 @@ starBtnEl.addEventListener("click", function() {
     li2.setAttribute("class", "choice");
     li3.setAttribute("class", "choice");
     li4.setAttribute("class", "choice");
+
     // loads up first question then sets event listener to each li item
     var choiceEl = document.querySelectorAll('.choice');
-    // i tried for hours to separate the function in this set interval function but every time i define the function somewhere else the timer freezes up.
-    // if i make the whole thing into a function I cannot access the id because the variable is declared inside the function
-    // timerEl.textContent = 60;
-    var secondsLeft = 60;
-    var points = 0;
     n = 1;
     queryQuestion(n-1);
-    var timer = countDown(secondsLeft);
-    // var timer = setInterval(function () {
-    //   secondsLeft = secondsLeft - 1;
-    //   timerEl.textContent = secondsLeft;
-  
-    //   if(secondsLeft < 0) {
-    //     clearInterval(timer);
-    //     timerEl.textContent = "Out of Time!"
-    //     li1.setAttribute("class", "finished");
-    //     li2.setAttribute("class", "finished");
-    //     li3.setAttribute("class", "finished");
-    //     li4.setAttribute("class", "finished");
-    //     h2El.textContent = (`And We're done!`);
-    //     li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
-    //     li2.textContent = (`with ${secondsLeft}s left on the clock`);
-    //     li3.textContent = ('');
-    //     li4.textContent = ('');
-    //     results= {points, secondsLeft};
-    //   }
-    //   }, 1000);
+
+
+    var timer = setInterval( function(){
+      secondsLeft = secondsLeft - 1;
+      timerEl.textContent=secondsLeft;
+      if (secondsLeft < 0) {
+        clearInterval(timer);
+        endQuiz('You no have more Time :( \n Big Sad');
+      }
+    },1000)
 
     var results = {};
     for (i=0; i < choiceEl.length; ++i) {
     choiceEl[i].addEventListener("click", function(event){
 
         if (event.target.id === 'correctChoice' && (n < questionPool.length)) {
-        // secondsLeft = parseInt(timerEl.textContent) + 20;
-        clearInterval(timer);
-        secondsLeft = parseInt(timerEl.textContent) + 20
-        timerEl.textContent = ('')
-        timer = countDown(secondsLeft);
-
-        // var timer = setInterval(function () {
-        //   secondsLeft = secondsLeft - 1;
-        //   timerEl.textContent = secondsLeft;
-        //   if(secondsLeft < 0) {
-        //     clearInterval(timer);
-        //     timerEl.textContent = "Out of Time!"
-        //     li1.setAttribute("class", "finished");
-        //     li2.setAttribute("class", "finished");
-        //     li3.setAttribute("class", "finished");
-        //     li4.setAttribute("class", "finished");
-        //     h2El.textContent = (`And We're done!`);
-        //     li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
-        //     li2.textContent = (`with ${secondsLeft}s left on the clock`);
-        //     li3.textContent = ('');
-        //     li4.textContent = ('');
-        //     results= {points, secondsLeft};
-        //   }
-        //   }, 1000);
-        points = points + 1;
-        queryQuestion(n-1);
+            secondsLeft = secondsLeft + 20;
+            points = points + 1;
+            splashScreen('Correct!')
+            setTimeout(function() {
+              queryQuestion(n-1)
+            }, 1000);
       }
         else if (event.target.id === 'incorrectChoice' && (n < questionPool.length)) {
-        // secondsLeft = parseInt(timerEl.textContent) - 20;
-        clearInterval(timer);
-        secondsLeft = parseInt(timerEl.textContent) - 20
-        timerEl.textContent = ('')
-        timer = countDown(secondsLeft);
-
-        // var timer = setInterval(function () {
-        //   secondsLeft = secondsLeft - 1;
-        //   timerEl.textContent = secondsLeft;
-        //   if(secondsLeft < 0) {
-        //     clearInterval(timer);
-        //     timerEl.textContent = "Out of Time!"
-        //     li1.setAttribute("class", "finished");
-        //     li2.setAttribute("class", "finished");
-        //     li3.setAttribute("class", "finished");
-        //     li4.setAttribute("class", "finished");
-        //     h2El.textContent = (`And We're done!`);
-        //     li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
-        //     li2.textContent = (`with ${secondsLeft}s left on the clock`);
-        //     li3.textContent = ('');
-        //     li4.textContent = ('');
-        //     results= {points, secondsLeft};
-        //   }
-        //   }, 1000);
-        queryQuestion(n-1);
+            secondsLeft = secondsLeft - 20;
+            splashScreen('Wrong!')
+            setTimeout(function() {
+              queryQuestion(n-1)
+            }, 1000);
       } 
-        else {
-        clearInterval(timer);
-        li1.setAttribute("class", "finished");
-        li2.setAttribute("class", "finished");
-        li3.setAttribute("class", "finished");
-        li4.setAttribute("class", "finished");
-        h2El.textContent = (`And We're done!`);
-        li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
-        li2.textContent = (`with ${secondsLeft}s left on the clock`);
-        li3.textContent = ('');
-        li4.textContent = ('');
-        results= {points, secondsLeft}
+          else {
+          timerEl.textContent = ('');
+          endQuiz(`And, We're Done!`)
       }
     n = n + 1;
   })}
     })
-
-
-
-
-
-
-
-
-
-
-// var choiceEl = document.querySelectorAll('.choice');
-// var points = 0
-
-// for (i=0; i < choiceEl.length; ++i) {
-//   choiceEl[i].addEventListener("click", function(event){
-//         if (event.target.id === 'correctChoice') {
-//         var secondsLeft = secondsLeft + 20;
-//         points = points + 1;
-//         queryQuestion(i+1,li1,li2,li3,li4);
-//         setTime();
-//     }
-//     else if (event.target.id === 'incorrectChoice') {
-//         var secondsLeft = secondsLeft - 20;
-//         points = points + 0;
-//         queryQuestion(i+1,li1,li2,li3,li4);
-//         setTime();
-//     }
-//   })
-// }
