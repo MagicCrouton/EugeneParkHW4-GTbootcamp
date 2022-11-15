@@ -43,7 +43,7 @@ count++;\n
 
 // this ingests the objects into a single array
 var questionPool = [];
-for (i=0; i < 14; ++i){
+for (i=0; i < 15; ++i){
     questionPool[i] = eval(`question${(i+1)}`)
 }
 //##########################################################################################################################################
@@ -51,20 +51,67 @@ for (i=0; i < 14; ++i){
 //this is inital time
 var secondsLeft = 60;
 var points = 0;
+var n =1;
 //##########################################################################################################################################
-// // timer function
-function endQuiz (message) {
-  h2El.textContent = (message);
-  li1.setAttribute("class", "finished");
-  li2.setAttribute("class", "finished");
-  li3.setAttribute("class", "finished");
-  li4.setAttribute("class", "finished");
-  li1.textContent = (`you got ${points} out of ${questionPool.length} right`);
-  li2.textContent = (`with ${secondsLeft}s left on the clock`);
-  li3.textContent = ('');
-  li4.textContent = ('');
-  timerEl.textContent = ('');
-}
+// timer function
+// function endQuiz (message) {
+//   h2El.textContent = (message);
+//   li1.setAttribute("class", "finished");
+//   li2.setAttribute("class", "finished");
+//   li3.setAttribute("class", "finished");
+//   li4.setAttribute("class", "finished");
+//   li1.textContent = (``);
+//   li2.textContent = (``);
+//   li3.textContent = ('');
+//   li4.textContent= ('');
+//   timerEl.textContent = ('');
+//   timerEl.setAttribute("class", "finished");
+//   n = questionPool.length + 1;
+
+//   var cleanupEl = document.querySelectorAll(".finished")
+//   for (i=0; i < cleanupEl.length; ++i) {
+//      cleanupEl[i].remove();
+//   }
+
+// var formEl = document.createElement("form");
+// formEl.setAttribute("class","finished")
+// var nameContainerEl = document.createElement("div");
+// nameContainerEl.setAttribute("id","nameContainer")
+// var submitContainerEl = document.createElement("div");
+// submitContainerEl.setAttribute("id","submitContainer");
+// var nameLabelEl = document.createElement("label");
+// nameLabelEl.setAttribute("id","nameLabel")
+// var submitLabelEl = document.createElement("label");
+// submitContainerEl.setAttribute("id","submitLabel");
+// var nameBtnEl = document.createElement("input");
+// nameBtnEl.setAttribute("id","submitBtn");
+// var submitBtnEl = document.createElement("input");
+// submitBtnEl.setAttribute("id", "submitBtn");
+
+// multchoiceListEl.appendChild(formEl);
+// formEl.appendChild(nameContainerEl);
+// formEl.appendChild(submitContainerEl);
+// nameContainerEl.appendChild(nameLabelEl);
+// nameContainerEl.appendChild(nameBtnEl);
+// submitContainerEl.appendChild(submitLabelEl);
+// submitContainerEl.appendChild(submitBtnEl);
+// }
+
+
+// var formEl = document.createElement("form");
+// formEl.setAttribute("class","finished")
+// var nameContainerEl = document.createElement("div");
+// nameContainerEl.setAttribute("id","nameContainer")
+// var submitContainerEl = document.createElement("div");
+// submitContainerEl.setAttribute("id","submitContainer");
+// var nameLabelEl = document.createElement("label");
+// nameLabelEl.setAttribute("id","nameLabel")
+// var submitLabelEl = document.createElement("label");
+// submitContainerEl.setAttribute("id","submitLabel");
+// var nameBtnEl = document.createElement("input");
+// nameBtnEl.setAttribute("id","submitBtn");
+// var submitBtnEl = document.createElement("input");
+// submitBtnEl.setAttribute("id", "submitBtn");
 //##########################################################################################################################################
 //##########################################################################################################################################
 // Function Section
@@ -168,6 +215,8 @@ function splashScreen (prompt) {
 //##########################################################################################################################################
 // Inital click resets the page for questions and starts the inital timer
 
+
+if (n < questionPool.length){
 starBtnEl.addEventListener("click", function() {
     starBtnEl.textContent = '';
     starBtnEl.setAttribute('id', 'blank');
@@ -180,9 +229,7 @@ starBtnEl.addEventListener("click", function() {
 
     // loads up first question then sets event listener to each li item
     var choiceEl = document.querySelectorAll('.choice');
-    n = 1;
     queryQuestion(n-1);
-
 
     var timer = setInterval( function(){
       secondsLeft = secondsLeft - 1;
@@ -193,8 +240,7 @@ starBtnEl.addEventListener("click", function() {
       }
     },1000)
 
-    var results = {};
-    for (i=0; i < choiceEl.length; ++i) {
+  for (i=0; i < choiceEl.length; ++i) {
     choiceEl[i].addEventListener("click", function(event){
 
         if (event.target.id === 'correctChoice' && (n < questionPool.length)) {
@@ -203,19 +249,66 @@ starBtnEl.addEventListener("click", function() {
             splashScreen('Correct!')
             setTimeout(function() {
               queryQuestion(n-1)
-            }, 1000);
+            }, 100);
+            n = n + 1;
       }
         else if (event.target.id === 'incorrectChoice' && (n < questionPool.length)) {
             secondsLeft = secondsLeft - 20;
             splashScreen('Wrong!')
             setTimeout(function() {
               queryQuestion(n-1)
-            }, 1000);
+            }, 100);
+            n = n + 1;
       } 
           else {
+          clearInterval(timer);
           timerEl.textContent = ('');
           endQuiz(`And, We're Done!`)
       }
-    n = n + 1;
+    console.log(n)
   })}
-    })
+    })}
+
+
+  function endQuiz (message) {
+      h2El.textContent = (message);
+      li1.setAttribute("class", "finished");
+      li2.setAttribute("class", "finished");
+      li3.setAttribute("class", "finished");
+      li4.setAttribute("class", "finished");
+      li1.textContent = (``);
+      li2.textContent = (``);
+      li3.textContent = ('');
+      li4.textContent= ('');
+      timerEl.textContent = ('');
+      timerEl.setAttribute("class", "finished");
+      n = questionPool.length + 1;
+      
+    var cleanupEl = document.querySelectorAll(".finished")
+      for (i=0; i < cleanupEl.length; ++i) {
+         cleanupEl[i].remove();
+      }
+    
+    var formEl = document.createElement("form");
+    formEl.setAttribute("class","finished")
+    var nameContainerEl = document.createElement("div");
+    nameContainerEl.setAttribute("id","nameContainer")
+    var submitContainerEl = document.createElement("div");
+    submitContainerEl.setAttribute("id","submitContainer");
+    var nameLabelEl = document.createElement("label");
+    nameLabelEl.setAttribute("id","nameLabel")
+    var submitLabelEl = document.createElement("label");
+    submitContainerEl.setAttribute("id","submitLabel");
+    var nameBtnEl = document.createElement("input");
+    nameBtnEl.setAttribute("id","submitBtn");
+    var submitBtnEl = document.createElement("input");
+    submitBtnEl.setAttribute("id", "submitBtn");
+    
+    multchoiceListEl.appendChild(formEl);
+    formEl.appendChild(nameContainerEl);
+    formEl.appendChild(submitContainerEl);
+    nameContainerEl.appendChild(nameLabelEl);
+    nameContainerEl.appendChild(nameBtnEl);
+    submitContainerEl.appendChild(submitLabelEl);
+    submitContainerEl.appendChild(submitBtnEl);
+    }

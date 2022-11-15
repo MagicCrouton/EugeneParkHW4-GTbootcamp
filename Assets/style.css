@@ -64,4 +64,22 @@ header {
     align-items: center;
 }
 
+.finished {
+    display: flex;
+    flex-direction: row;
+    /* border-style: dotted; */
+    justify-content: space-evenly;
+    background-color: darkgreen;
+}
 
+#nameContainer {
+    /* display: flex;
+    flex-direction: row; */
+    float: left;
+}
+
+#submitContainer {
+    display: flex;
+    flex-direction: column;
+    float: right;
+}
