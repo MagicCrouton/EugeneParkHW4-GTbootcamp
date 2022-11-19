@@ -49,9 +49,10 @@ for (i=0; i < 15; ++i){
 //##########################################################################################################################################
 //##########################################################################################################################################
 //this is inital time
-var secondsLeft = 60;
+var secondsLeft = 1000;
 var points = 0;
 var n =1;
+var quizOver = false;
 //##########################################################################################################################################
 // timer function
 // function endQuiz (message) {
@@ -216,7 +217,7 @@ function splashScreen (prompt) {
 // Inital click resets the page for questions and starts the inital timer
 
 
-if (n < questionPool.length){
+
 starBtnEl.addEventListener("click", function() {
     starBtnEl.textContent = '';
     starBtnEl.setAttribute('id', 'blank');
@@ -239,7 +240,7 @@ starBtnEl.addEventListener("click", function() {
         endQuiz('You no have more Time :( \n Big Sad');
       }
     },1000)
-
+// for (i = 0; i < )
   for (i=0; i < choiceEl.length; ++i) {
     choiceEl[i].addEventListener("click", function(event){
 
@@ -267,48 +268,96 @@ starBtnEl.addEventListener("click", function() {
       }
     console.log(n)
   })}
-    })}
+    })
 
-
-  function endQuiz (message) {
+    function endQuiz (message) {
+// tags elements i want to remove with end display ID to clean up in the for loop below.
       h2El.textContent = (message);
-      li1.setAttribute("class", "finished");
-      li2.setAttribute("class", "finished");
-      li3.setAttribute("class", "finished");
+      li1.setAttribute("class", "endDisplay");
+      li2.setAttribute("class", "endDisplay");
+      li3.setAttribute("class", "endDisplay");
       li4.setAttribute("class", "finished");
-      li1.textContent = (``);
-      li2.textContent = (``);
-      li3.textContent = ('');
+      li1.textContent = (`You got ${points} questions out of ${questionPool.length} right`);
+      li2.textContent = (`with ${secondsLeft}s left on the clock`);
+      if (secondsLeft < 0) {
+        secondsLeft = 1;
+      }
+      li3.textContent = (`with a score of ${points*secondsLeft}`);
       li4.textContent= ('');
       timerEl.textContent = ('');
       timerEl.setAttribute("class", "finished");
       n = questionPool.length + 1;
-      
-    var cleanupEl = document.querySelectorAll(".finished")
-      for (i=0; i < cleanupEl.length; ++i) {
-         cleanupEl[i].remove();
-      }
-    
-    var formEl = document.createElement("form");
-    formEl.setAttribute("class","finished")
-    var nameContainerEl = document.createElement("div");
-    nameContainerEl.setAttribute("id","nameContainer")
-    var submitContainerEl = document.createElement("div");
-    submitContainerEl.setAttribute("id","submitContainer");
-    var nameLabelEl = document.createElement("label");
-    nameLabelEl.setAttribute("id","nameLabel")
-    var submitLabelEl = document.createElement("label");
-    submitContainerEl.setAttribute("id","submitLabel");
-    var nameBtnEl = document.createElement("input");
-    nameBtnEl.setAttribute("id","submitBtn");
-    var submitBtnEl = document.createElement("input");
-    submitBtnEl.setAttribute("id", "submitBtn");
-    
-    multchoiceListEl.appendChild(formEl);
-    formEl.appendChild(nameContainerEl);
-    formEl.appendChild(submitContainerEl);
-    nameContainerEl.appendChild(nameLabelEl);
-    nameContainerEl.appendChild(nameBtnEl);
-    submitContainerEl.appendChild(submitLabelEl);
-    submitContainerEl.appendChild(submitBtnEl);
-    }
+      quizOver = true;
+  var cleanupEl = document.querySelectorAll(".finished")
+  for (i=0; i < cleanupEl.length; ++i) {
+     cleanupEl[i].remove();
+  }
+// below creates the form to submit user score
+var formEl = document.createElement("form");
+formEl.setAttribute("class","finished")
+var nameContainerEl = document.createElement("div");
+nameContainerEl.setAttribute("id","nameContainer")
+var submitContainerEl = document.createElement("div");
+submitContainerEl.setAttribute("id","submitContainer");
+var nameLabelEl = document.createElement("label");
+nameLabelEl.setAttribute("id","nameLabel")
+nameLabelEl.setAttribute("for", "nameLabel")
+var submitLabelEl = document.createElement("label");
+submitLabelEl.setAttribute("id","submitLabel");
+submitLabelEl.setAttribute("for","submitLabel");
+var nameBtnEl = document.createElement("input");
+nameBtnEl.setAttribute("id","submitBtn");
+var submitBtnEl = document.createElement("input");
+submitBtnEl.setAttribute("type", "submit");
+submitBtnEl.setAttribute("id", "submitBtn");
+multchoiceListEl.appendChild(formEl);
+formEl.appendChild(nameContainerEl);
+formEl.appendChild(submitContainerEl);
+nameContainerEl.appendChild(nameLabelEl);
+nameContainerEl.appendChild(nameBtnEl);
+submitContainerEl.appendChild(submitLabelEl);
+submitContainerEl.appendChild(submitBtnEl);
+nameLabelEl.textContent = "enter your name"
+submitLabelEl.textContent = "click to submit your score"
+
+// waits for submit button click
+submitBtnEl.addEventListener("click", function(event){
+  event.preventDefault();
+  nameContainerEl.remove();
+  submitContainerEl.remove();
+var score = {
+  userName: nameBtnEl.value.trim(),
+  points: points*secondsLeft
+}
+
+if (localStorage.getItem("scoreStorage") === null) {
+
+  var userScore= [];
+  userScore[0] = score;
+
+ localStorage.setItem("scoreStorage", JSON.stringify(userScore));
+
+}
+else {
+  var userScore = JSON.parse(localStorage.getItem("scoreStorage"));
+  userScore[userScore.length] = score;
+  localStorage.setItem("scoreStorage", JSON.stringify(userScore));
+}
+h2El.textContent = 'Previous Scores';
+
+//I would like to add a sorter to rate from high to low but i ran out of time
+
+// creates and appends a list of previous scores
+
+for (i=0; i<userScore.length; ++i){
+  var highScore = document.createElement('li');
+  highScore.setAttribute("id",`highscore${i+1}`);
+  highScore.setAttribute("class", "highscore");
+  highScore.textContent = (`${i+1} : ${userScore[i].userName}; ${userScore[i].points}`)
+  h2El.appendChild(highScore);
+}
+  
+})}
+
+
+

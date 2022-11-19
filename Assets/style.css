@@ -1,42 +1,56 @@
+/* ############################################# */
+/* Overall document settings */
+
 :root {
-    --button: orange;
+    --button: rgb(251, 133, 0);
+    --highlight: rgb(255, 183, 3);
+    --darkHighlight: rgb(2, 48, 71);
     --borderStyle: solid;
-    --secondaryBorderstyle: dotted;
-    --textColor: black;
+    --secondaryBorderstyle: solid;
+    --textColor: white;
+    --background: rgb(142, 202, 230);
+    --secondaryBackground: rgb(33, 158, 188);
+
 }
 
 body {
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
     text-align: center;
+    background-color: white;
 }
 
+/* ############################################# */
+/* Start Screen Styling */
 header {
-    /* border-style: dotted; */
     font-size: 35pt;
     font-weight: bolder;
 }
 
 #container {
     border-style: var(--borderStyle);
-    margin-left: 35%;
-    margin-right: 35%;
+    border-color: var(--darkHighlight);
+    margin-left: 25%;
+    margin-right: 25%;
 }
 
 #container h2 {
     border-style: var(--secondaryBorderstyle);
+    border-color: var(--darkHighlight);
     padding: 5%;
     font-size: larger;
 }
 
+#quizcard {
+    background-color: var(--darkHighlight);
+}
 
 #startBtn {
     margin: 10%;
     font-size: 40px;
-    border-style: dotted;
+    border-style: var(--secondaryBorderstyle);
+    border-color: var(--darkHighlight);
     background-color: var(--button);
     color: var(--textColor);
 }
@@ -45,9 +59,10 @@ header {
 .choice {
     margin: 10%;
     font-size: 20px;
-    border-style: dotted;
     color: var(--textColor);
-    background-color: olive;
+    background-color: var(--darkHighlight);
+    border-radius: 20%;
+    padding: 2%;
 }
 
 #quizBoxbanner {
@@ -56,30 +71,79 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: var(--secondaryBackground);
+    color: var(--textColor);
 }
 
-.timer {
+#timebox {
+    font-size: x-large;
+    background-color: var(--darkHighlight);
+}
+
+/* EndQuiz Styling */
+
+.endDisplay {
+    padding: 10px;
+    font-size: larger;
+    background-color: var(--darkHighlight);
+    color: var(--textColor);
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: var(--secondaryBackground);
+    color: var(--textColor);
+}
+
+#nameContainer, #submitContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+/* .timer {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
+} */
+/* 
 .finished {
     display: flex;
     flex-direction: row;
-    /* border-style: dotted; */
     justify-content: space-evenly;
-    background-color: darkgreen;
-}
+    background-color: var(--secondaryBackground);
 
-#nameContainer {
-    /* display: flex;
-    flex-direction: row; */
+} */
+
+/* #nameContainer {
     float: left;
-}
-
+} */
+/* 
 #submitContainer {
     display: flex;
     flex-direction: column;
     float: right;
 }
+
+.highscore {
+    list-style: none;
+    background-color: var(--background);
+    color: var(--textColor);
+}
+ #questionDisplay {
+    background-color: darkslategray;
+    color: var(--textColor);
+    border-radius: 30%;
+ }
+ #quizCard {
+    background-color: var(--dark);
+ }
+
+ #timebox {
+    background-color: var(--secondaryBackground);
+    padding: 10px;
+    color: white;
+    font-size: larger;
+ } */
