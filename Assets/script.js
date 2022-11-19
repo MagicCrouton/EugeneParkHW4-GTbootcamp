@@ -49,95 +49,11 @@ for (i=0; i < 15; ++i){
 //##########################################################################################################################################
 //##########################################################################################################################################
 //this is inital time
-var secondsLeft = 1000;
+var secondsLeft = 60;
 var points = 0;
 var n =1;
 var quizOver = false;
 //##########################################################################################################################################
-// timer function
-// function endQuiz (message) {
-//   h2El.textContent = (message);
-//   li1.setAttribute("class", "finished");
-//   li2.setAttribute("class", "finished");
-//   li3.setAttribute("class", "finished");
-//   li4.setAttribute("class", "finished");
-//   li1.textContent = (``);
-//   li2.textContent = (``);
-//   li3.textContent = ('');
-//   li4.textContent= ('');
-//   timerEl.textContent = ('');
-//   timerEl.setAttribute("class", "finished");
-//   n = questionPool.length + 1;
-
-//   var cleanupEl = document.querySelectorAll(".finished")
-//   for (i=0; i < cleanupEl.length; ++i) {
-//      cleanupEl[i].remove();
-//   }
-
-// var formEl = document.createElement("form");
-// formEl.setAttribute("class","finished")
-// var nameContainerEl = document.createElement("div");
-// nameContainerEl.setAttribute("id","nameContainer")
-// var submitContainerEl = document.createElement("div");
-// submitContainerEl.setAttribute("id","submitContainer");
-// var nameLabelEl = document.createElement("label");
-// nameLabelEl.setAttribute("id","nameLabel")
-// var submitLabelEl = document.createElement("label");
-// submitContainerEl.setAttribute("id","submitLabel");
-// var nameBtnEl = document.createElement("input");
-// nameBtnEl.setAttribute("id","submitBtn");
-// var submitBtnEl = document.createElement("input");
-// submitBtnEl.setAttribute("id", "submitBtn");
-
-// multchoiceListEl.appendChild(formEl);
-// formEl.appendChild(nameContainerEl);
-// formEl.appendChild(submitContainerEl);
-// nameContainerEl.appendChild(nameLabelEl);
-// nameContainerEl.appendChild(nameBtnEl);
-// submitContainerEl.appendChild(submitLabelEl);
-// submitContainerEl.appendChild(submitBtnEl);
-// }
-
-
-// var formEl = document.createElement("form");
-// formEl.setAttribute("class","finished")
-// var nameContainerEl = document.createElement("div");
-// nameContainerEl.setAttribute("id","nameContainer")
-// var submitContainerEl = document.createElement("div");
-// submitContainerEl.setAttribute("id","submitContainer");
-// var nameLabelEl = document.createElement("label");
-// nameLabelEl.setAttribute("id","nameLabel")
-// var submitLabelEl = document.createElement("label");
-// submitContainerEl.setAttribute("id","submitLabel");
-// var nameBtnEl = document.createElement("input");
-// nameBtnEl.setAttribute("id","submitBtn");
-// var submitBtnEl = document.createElement("input");
-// submitBtnEl.setAttribute("id", "submitBtn");
-//##########################################################################################################################################
-//##########################################################################################################################################
-// Function Section
-//##########################################################################################################################################
-//##########################################################################################################################################
-
-//##########################################################################################################################################
-// Timer function, could not get this to work.
-//##########################################################################################################################################
-// function countDown(x) {
-//     var timer = setInterval(function() {
-//     x = x - 1;
-//     timerEl.textContent = x;
-//     // var x = [secondsLeft, timer];
-//     if(x < 0) {
-//       clearInterval(timer);
-//       endQuiz('Out of Time!');
-//     }
-//     else {}
-//   return x;         } ,1000)
-//   return [timer, x];}
-//##########################################################################################################################################
-// End
-//##########################################################################################################################################
-
 
 //##########################################################################################################################################
 // This function fills the multiple choice text content with one correct answer and three randomized wrong answers from the rest of the pool
@@ -192,7 +108,7 @@ var quizOver = false;
 //##########################################################################################################################################
 // END question updater function
 //##########################################################################################################################################
-
+// this function flashes in between questions to tell you if you got the question right or not
 function splashScreen (prompt) {
     li1.textContent=`${prompt}`;
     li2.textContent='';
@@ -234,10 +150,11 @@ starBtnEl.addEventListener("click", function() {
 
     var timer = setInterval( function(){
       secondsLeft = secondsLeft - 1;
-      timerEl.textContent=secondsLeft;
+      timerEl.textContent=`You have ${secondsLeft}s left`
       if (secondsLeft < 0) {
         clearInterval(timer);
-        endQuiz('You no have more Time :( \n Big Sad');
+        secondsLeft = 0;
+        endQuiz('You no have more Time :( Big Sad');
       }
     },1000)
 // for (i = 0; i < )
@@ -247,18 +164,18 @@ starBtnEl.addEventListener("click", function() {
         if (event.target.id === 'correctChoice' && (n < questionPool.length)) {
             secondsLeft = secondsLeft + 20;
             points = points + 1;
-            splashScreen('Correct!')
+            splashScreen('Correct! \n +20 Seconds')
             setTimeout(function() {
               queryQuestion(n-1)
-            }, 100);
+            }, 1000);
             n = n + 1;
       }
         else if (event.target.id === 'incorrectChoice' && (n < questionPool.length)) {
             secondsLeft = secondsLeft - 20;
-            splashScreen('Wrong!')
+            splashScreen('Wrong! -20 Seconds')
             setTimeout(function() {
               queryQuestion(n-1)
-            }, 100);
+            }, 1000);
             n = n + 1;
       } 
           else {
@@ -353,7 +270,7 @@ for (i=0; i<userScore.length; ++i){
   var highScore = document.createElement('li');
   highScore.setAttribute("id",`highscore${i+1}`);
   highScore.setAttribute("class", "highscore");
-  highScore.textContent = (`${i+1} : ${userScore[i].userName}; ${userScore[i].points}`)
+  highScore.textContent = (`${i+1} : Player Name : ${userScore[i].userName}, Score ${userScore[i].points}`)
   h2El.appendChild(highScore);
 }
   

@@ -18,7 +18,7 @@ body {
     flex-direction: column;
     justify-content: space-around;
     text-align: center;
-    background-color: white;
+    background-color: darkgray
 }
 
 /* ############################################# */
@@ -103,47 +103,7 @@ form {
     flex-direction: column;
 }
 
-/* .timer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
-/* 
-.finished {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    background-color: var(--secondaryBackground);
-
-} */
-
-/* #nameContainer {
-    float: left;
-} */
-/* 
-#submitContainer {
-    display: flex;
-    flex-direction: column;
-    float: right;
-}
-
 .highscore {
-    list-style: none;
-    background-color: var(--background);
-    color: var(--textColor);
+    list-style-type: none;
+    text-align: center;
 }
- #questionDisplay {
-    background-color: darkslategray;
-    color: var(--textColor);
-    border-radius: 30%;
- }
- #quizCard {
-    background-color: var(--dark);
- }
-
- #timebox {
-    background-color: var(--secondaryBackground);
-    padding: 10px;
-    color: white;
-    font-size: larger;
- } */
