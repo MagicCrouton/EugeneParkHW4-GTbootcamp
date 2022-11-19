@@ -196,7 +196,7 @@ starBtnEl.addEventListener("click", function() {
       li4.setAttribute("class", "finished");
       li1.textContent = (`You got ${points} questions out of ${questionPool.length} right`);
       li2.textContent = (`with ${secondsLeft}s left on the clock`);
-      if (secondsLeft < 0) {
+      if (secondsLeft < 1) {
         secondsLeft = 1;
       }
       li3.textContent = (`with a score of ${points*secondsLeft}`);
@@ -242,6 +242,9 @@ submitBtnEl.addEventListener("click", function(event){
   event.preventDefault();
   nameContainerEl.remove();
   submitContainerEl.remove();
+  if (secondsLeft < 1) {
+    secondsLeft = 1;
+  }
 var score = {
   userName: nameBtnEl.value.trim(),
   points: points*secondsLeft
