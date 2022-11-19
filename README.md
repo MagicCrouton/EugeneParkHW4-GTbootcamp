@@ -1,5 +1,5 @@
-#Challenge 04
-##Description
+# Challenge 04
+## Description
 For this assignment I have created an interactive quiz about javascript. The quiz starts when you press the start button and cylces through the questions which then leads to a simple username input which records username and score to local memory. 
 
 ![Alt text](./Assets/StartScreen.png "figure 1")
@@ -14,20 +14,20 @@ If time runs out or the quiz is finished the script calls the endQuiz function w
 ![Alt text](./Assets/submit%20screen.png"figure 3")
 ![Alt text](./Assets/ScoreScreen.png"figure 4")
 
-##link to live site.
+## link to live site.
 https://magiccrouton.github.io/EugeneParkHW4-GTbootcamp/
 
-##link to HW4 Repo
+## link to HW4 Repo
 https://github.com/MagicCrouton/EugeneParkHW4-GTbootcamp.git
 
 ##link to overall githup
 https://github.com/MagicCrouton
 
-##Credits
+## Credits
 questions and answers were found on quizlet; 
 https://quizlet.com/234928595/question-pool-quiz-3-chapter-3-flash-cards/
 color scheme was found with Coolrs.com
 https://coolors.co/palettes/trending
 
-##License
+## License
 N/A
